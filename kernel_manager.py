@@ -162,7 +162,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         """Widget comboBox и список flavour в нем"""
         self.comboBox_ChangeKernel.addItem(_('Flavor - not selected'))
         self.comboBox_ChangeKernel.addItem(_('STD-DEF kernel (main kernel)'))
-        self.comboBox_ChangeKernel.addItem(_('OLD-DEF kernel (old std-def branch)'))
         self.comboBox_ChangeKernel.addItem(_('UN-DEF kernel (experimental kernel)'))
         self.comboBox_ChangeKernel.addItem(_('RT kernel (realtime kernel)'))
         self.comboBox_ChangeKernel.addItem(_('Sisyphus (kernel un-def)'))
@@ -171,7 +170,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def combobox_repo(self):
         """Widget comboBox и список репозиториев в нем"""
         current_repo = Shell().run('apt-repo').splitlines()[1]
-        list_repo = ["p9", "p10", "Sisyphus"]
+        list_repo = ["p10", "p11", "Sisyphus"]
 
         for name_repo in list_repo:
             if name_repo in current_repo:
@@ -190,7 +189,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for line in kernel_list:
             if "std" in line: icon = ":/picture/icons/std-p.png"
             elif "un" in line: icon = ":/picture/icons/un-p.png"
-            elif "old" in line: icon = ":/picture/icons/old-p.png"
             elif "rt" in line: icon = ":/picture/icons/rt-p.png"
             else: icon = ":/picture/icons/no-p.png"
 
@@ -276,6 +274,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 '"update-kernel"')
             return list_command
 
+        elif combobox_text == 'p11' and combobox_text not in current_repo:
+            list_command = ("/bin/sh -c "
+                '"apt-get dist-upgrade ; "'
+                '"apt-repo set p11 ; "'
+                '"apt-get clean ; "'
+                '"apt-get update ; "'
+                '"apt-get install apt rpm ; "'
+                '"apt-get dist-upgrade ; "'
+                '"update-kernel -t std-def"')
+            return list_command
+
+
         elif combobox_text == 'p10' and combobox_text not in current_repo:
             list_command = ("/bin/sh -c "
                 '"apt-get dist-upgrade ; "'
@@ -351,7 +361,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for line in item_list:
             if "std" in line: icon = ":/picture/icons/std-p.png"
             elif "un" in line: icon = ":/picture/icons/un-p.png"
-            elif "old" in line: icon = ":/picture/icons/old-p.png"
             elif "rt" in line: icon = ":/picture/icons/rt-p.png"
             else: icon = ":/picture/icons/no-p.png"
 
@@ -398,7 +407,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def closeEvent(self, event):
-        """Действия ри закрытии программы"""
+        """Действия при закрытии программы"""
         win_main_size = [
             int(self.geometry().width()),
             int(self.geometry().height())]
@@ -496,10 +505,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if 0 == combobox_item: pass
         elif 1 == combobox_item: flavour = 'std-def'
-        elif 2 == combobox_item: flavour = 'old-def'
-        elif 3 == combobox_item: flavour = 'un-def'
-        elif 4 == combobox_item: flavour = 'rt'
-        elif 5 == combobox_item: self.sisyphus_flavour()
+        elif 2 == combobox_item: flavour = 'un-def'
+        elif 3 == combobox_item: flavour = 'rt'
+        elif 4 == combobox_item: self.sisyphus_flavour()
 
         try:
             self.branches()
