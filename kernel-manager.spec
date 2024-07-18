@@ -1,6 +1,6 @@
 Name: kernel-manager
-Version: 1.10
-Release: alt3
+Version: 1.11
+Release: alt2
 
 License: LGPL-3.0-only
 Group: System/Base
@@ -58,6 +58,13 @@ python3 setup.py \
 /opt/kernel-manager
 
 %changelog
+*Tue  Jul 09 2024 Gostsdmitry <dmitrydmitry761@gmail.com> 1.11-alt2
+- Removed support for p9 platform and old-def kernel flavor
+
+*Thu  Jun 06 2024 Gostsdmitry <dmitrydmitry761@gmail.com> 1.11-alt1
+- New version 1.11
+- Added function to jump to p11
+
 * Sat Mar 04 2023 Evgeny Chuck <koi@altlinux.org> 1.10-alt3
 - Added the ability to change the kernel to a real-time type
 - Changed search expression for new kernels and version comparisons
