@@ -41,6 +41,8 @@ The program has been translated into Russian and English. The English version ne
 
 * New version v1.9
 
+* New version v1.8
+
 * New version v1.7
 
 * New version v1.6
